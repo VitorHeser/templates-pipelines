@@ -23,7 +23,7 @@ on:
         
 jobs:
   deploy:
-    runs-on:  self-hosted
+    runs-on: self-hosted
     env:
       DOCKER_IMAGE_PREFIX: ${{ inputs.DOCKER_IMAGE_PREFIX }}
       SERVICES: ${{ inputs.SERVICES }}
@@ -38,19 +38,19 @@ jobs:
         
       - name: "Baixar imagens do Docker Hub"
         run: |
-          for service in ${{ env.SERVICES }}; do
+          for service in $SERVICES; do
             echo "Pulling image for $service..."
-            docker pull ${{ env.DOCKER_IMAGE_PREFIX }}:$service || exit 1
+            docker pull $DOCKER_IMAGE_PREFIX:$service || exit 1
           done
 
       - name: "Deploy nos containers da VPS"
         run: |
-          docker ps -q --filter "ancestor=${{ env.DOCKER_IMAGE_PREFIX }}" | xargs -r docker stop | xargs -r docker rm || exit 1
+          docker ps -q --filter "ancestor=$DOCKER_IMAGE_PREFIX" | xargs -r docker stop | xargs -r docker rm || exit 1
           
-          for i in $(seq 1 $(echo ${{ env.SERVICES }} | wc -w)); do
-            service=$(echo ${{ env.SERVICES }} | cut -d ' ' -f $i)
-            port=$(echo ${{ env.PORTS }} | cut -d ' ' -f $i)
-            portout=$(echo ${{ env.PORTSOUT }} | cut -d ' ' -f $i)
+          for i in $(seq 1 $(echo $SERVICES | wc -w)); do
+            service=$(echo $SERVICES | cut -d ' ' -f $i)
+            port=$(echo $PORTS | cut -d ' ' -f $i)
+            portout=$(echo $PORTSOUT | cut -d ' ' -f $i)
             echo "Starting container for $service..."
           
             if [ $(docker ps -a -q -f "name=$service") ]; then
@@ -63,5 +63,5 @@ jobs:
               --restart=always \
               -p ${port}:${portout} \
               --name $service \
-              ${{ env.DOCKER_IMAGE_PREFIX }}:$service || exit 1
+              $DOCKER_IMAGE_PREFIX:$service || exit 1
           done
