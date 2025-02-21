@@ -28,8 +28,8 @@ jobs:
   ci:
     uses: VitorHeser/templates-pipelines/.github/workflows/ci-api-docker-vps-jdk17-template.yml@main
     with:
-      SPRING_PROFILE: ${{ inputs.PORTS }}
-      ENTRYPOINT_FILE: ${{ inputs.PORTS }}
+      SPRING_PROFILE: ${{ inputs.SPRING_PROFILE }}
+      ENTRYPOINT_FILE: ${{ inputs.ENTRYPOINT_FILE }}
       DOCKER_IMAGE_PREFIX: ${{ inputs.DOCKER_IMAGE_PREFIX }}
       SERVICES: ${{ inputs.SERVICES }}
       PORTS: ${{ inputs.PORTS }}
