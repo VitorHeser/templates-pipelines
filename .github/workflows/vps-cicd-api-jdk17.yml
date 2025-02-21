@@ -23,9 +23,8 @@ on:
      
 jobs:
   ci:
-    uses: VitorHeser/templates-pipelines/.github/workflows/ci-api-docker-vps-template.yml@main
+    uses: VitorHeser/templates-pipelines/.github/workflows/ci-api-docker-vps-jdk17-template.yml@main
     with:
-      JAVA_VERSION: ${{ inputs.DOCKER_IMAGE_PREFIX }}
       DOCKER_IMAGE_PREFIX: ${{ inputs.DOCKER_IMAGE_PREFIX }}
       SERVICES: ${{ inputs.SERVICES }}
       PORTS: ${{ inputs.PORTS }}
