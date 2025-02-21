@@ -9,9 +9,6 @@ on:
       SPRING_PROFILE:
         required: true
         type: string
-      JAVA_VERSION:
-        required: true
-        type: string
       DOCKER_IMAGE_PREFIX:
         required: true
         type: string
