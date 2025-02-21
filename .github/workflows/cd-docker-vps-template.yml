@@ -48,8 +48,8 @@ jobs:
           
           for i in $(seq 1 $(echo ${{ inputs.SERVICES }} | wc -w)); do
             service=$(echo ${{ inputs.SERVICES }} | cut -d ' ' -f $i)
-            port=$(echo ${{ inputs.PORTS }} | cut -d ' ' -f $i)
-            portout=$(echo ${{ inputs.PORTSOUT }} | cut -d ' ' -f $i)
+            port=$(echo ${{ inputs.PORTS }} | cut -d ' ' -f $i)      # CORRIGIDO
+            portout=$(echo ${{ inputs.PORTSOUT }} | cut -d ' ' -f $i) # CORRIGIDO
             echo "Starting container for $service..."
           
             if [ $(docker ps -a -q -f "name=$service") ]; then
@@ -64,3 +64,4 @@ jobs:
               --name $service \
               ${{ inputs.DOCKER_IMAGE_PREFIX }}:$service || exit 1
           done
+
