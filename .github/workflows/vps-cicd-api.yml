@@ -1,0 +1,24 @@
+name: CI API Docker VPS
+
+on:
+  workflow_call:
+    inputs:
+      DOCKER_IMAGE_PREFIX:
+        required: true
+        type: string
+      SERVICES:
+        required: true
+        type: string
+      PORTS:
+        required: true
+        type: string
+      PORTSOUT:
+        required: true
+        type: string
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+        
+jobs:

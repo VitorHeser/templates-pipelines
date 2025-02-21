@@ -1,0 +1,48 @@
+name: CI/CD WEB VPS
+
+on:
+  workflow_call:
+    inputs:
+      NVM_VERSION:
+        required: true
+        type: string
+      DOCKER_IMAGE_PREFIX:
+        required: true
+        type: string
+      SERVICES:
+        required: true
+        type: string
+      PORTS:
+        required: true
+        type: string
+      PORTSOUT:
+        required: true
+        type: string
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+        
+jobs:
+  ci:
+    uses: VitorHeser/templates-pipelines/.github/workflows/ci-web-docker-vps-template.yml@main
+    with:
+      NVM_VERSION: ${{ inputs.NVM_VERSION }}
+      DOCKER_IMAGE_PREFIX: ${{ inputs.DOCKER_IMAGE_PREFIX }}
+      SERVICES: ${{ inputs.SERVICES }}
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  
+  cd:
+    needs: ci
+    uses: VitorHeser/templates-pipelines/.github/workflows/cd-docker-vps-template.yml@main
+    with:
+      DOCKER_IMAGE_PREFIX: ${{ inputs.DOCKER_IMAGE_PREFIX }}
+      SERVICES: ${{ inputs.SERVICES }}
+      PORTS: ${{ inputs.PORTS }}
+      PORTSOUT: ${{ inputs.PORTSOUT }}
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
