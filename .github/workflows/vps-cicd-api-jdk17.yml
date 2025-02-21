@@ -3,6 +3,12 @@ name: CI API Docker VPS
 on:
   workflow_call:
     inputs:
+      ENTRYPOINT_FILE:
+        required: true
+        type: string
+      SPRING_PROFILE:
+        required: true
+        type: string
       JAVA_VERSION:
         required: true
         type: string
@@ -25,6 +31,8 @@ jobs:
   ci:
     uses: VitorHeser/templates-pipelines/.github/workflows/ci-api-docker-vps-jdk17-template.yml@main
     with:
+      SPRING_PROFILE: ${{ inputs.PORTS }}
+      ENTRYPOINT_FILE: ${{ inputs.PORTS }}
       DOCKER_IMAGE_PREFIX: ${{ inputs.DOCKER_IMAGE_PREFIX }}
       SERVICES: ${{ inputs.SERVICES }}
       PORTS: ${{ inputs.PORTS }}

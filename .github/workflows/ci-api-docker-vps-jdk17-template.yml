@@ -3,6 +3,12 @@ name: CI API Docker VPS
 on:
   workflow_call:
     inputs:
+      ENTRYPOINT_FILE:
+        required: true
+        type: string
+      SPRING_PROFILE:
+        required: true
+        type: string
       DOCKER_IMAGE_PREFIX:
         required: true
         type: string
