@@ -19,7 +19,7 @@ on:
         required: true
         
 jobs:
-  deploy:
+  build:
     runs-on: self-hosted
     steps:
       - name: "Login to Docker Hub"
