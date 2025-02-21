@@ -27,8 +27,6 @@ jobs:
         with:
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
-        env:
-            DOCKER_IMAGE_PREFIX: ${{ env.DOCKER_IMAGE_PREFIX }}
   
       - name: Check out code
         uses: actions/checkout@v2
@@ -49,15 +47,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-            for i in $(seq 1 $(echo ${{ env.SERVICES }} | wc -w)); do
-                service=$(echo ${{ env.SERVICES }} | cut -d ' ' -f $i)
+            for i in $(seq 1 $(echo ${{ inputs.SERVICES }} | wc -w)); do
+                service=$(echo ${{ inputs.SERVICES }} | cut -d ' ' -f $i)
                 echo "Building and pushing $service ...."
 
-                docker build -t ${{ env.DOCKER_IMAGE_PREFIX }}:$service . || exit 1
+                docker build -t ${{ inputs.DOCKER_IMAGE_PREFIX }}:$service . || exit 1
 
-                docker push ${{ env.DOCKER_IMAGE_PREFIX }}:$service
+                docker push ${{ inputs.DOCKER_IMAGE_PREFIX }}:$service
             done
-        env:
-            DOCKER_IMAGE_PREFIX: ${{ env.DOCKER_IMAGE_PREFIX }}
-            SERVICES: ${{ env.SERVICES }}
-  
