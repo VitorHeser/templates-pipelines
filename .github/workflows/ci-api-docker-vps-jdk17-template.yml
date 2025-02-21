@@ -59,6 +59,7 @@ jobs:
             service=$(echo ${{ inputs.SERVICES }} | cut -d ' ' -f $i)
             port=$(echo ${{ inputs.PORTS }} | cut -d ' ' -f $i)
             echo "Building and pushing $service on port $port..."
+            echo "${{ inputs.ENTRYPOINT_FILE }} ${{ inputs.SPRING_PROFILE }}"
             cd $service
 
             docker build --build-arg EXPOSE_PORT=$port \
