@@ -24,7 +24,6 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
-    env:
     steps:
       - name: "Nomeando Serviços"
         run: echo "Fazendo deploy para ${{ inputs.SERVICES }}"
