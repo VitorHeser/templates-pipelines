@@ -38,9 +38,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-            rm -rf /opt/hostedtoolcache/node/18.20.7/x64/lib/node_modules/@angular/cli
-            npm install -g @angular/cli
-            npm cache clean --force
             npm install -g @angular/cli
             npm install
             
