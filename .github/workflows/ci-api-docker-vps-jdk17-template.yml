@@ -49,7 +49,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y maven
 
       - name: "Build do Projeto"
-        run: mvn clean package -DskipTests
+        run: mvn clean package -DskipTests -Pprod
 
       - name: "Build and Push Docker images"
         run: |
