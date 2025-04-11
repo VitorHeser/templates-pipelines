@@ -56,7 +56,7 @@ jobs:
             fi
           done
 
-      - name: "Stop nos containers da VPS"
+      - name: "Prune Images nos containers da VPS"
         run: |
           docker system prune -f --volumes
         
