@@ -58,7 +58,7 @@ jobs:
 
       - name: "Prune Images nos containers da VPS"
         run: |
-          docker system prune -f --volumes
+          docker system prune -a --volumes -f
         
       - name: "Deploy nos containers da VPS"
         run: |
