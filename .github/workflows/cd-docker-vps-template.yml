@@ -41,6 +41,25 @@ jobs:
             docker pull ${{ inputs.DOCKER_IMAGE_PREFIX }}:$service || exit 1
           done
 
+      - name: "Stop nos containers da VPS"
+        run: |
+          docker ps -q --filter "ancestor=${{ inputs.DOCKER_IMAGE_PREFIX }}" | xargs -r docker stop | xargs -r docker rm || exit 1
+          
+          for i in $(seq 1 $(echo ${{ inputs.SERVICES }} | wc -w)); do
+            service=$(echo ${{ inputs.SERVICES }} | cut -d ' ' -f $i)
+            echo "Stop container for $service..."
+          
+            if [ $(docker ps -a -q -f "name=$service") ]; then
+              echo "Container $service already exists, removing..."
+              docker stop $service || exit 1
+              docker rm -f $service || exit 1
+            fi
+          done
+
+      - name: "Stop nos containers da VPS"
+        run: |
+          docker system prune -f --volumes
+        
       - name: "Deploy nos containers da VPS"
         run: |
           docker ps -q --filter "ancestor=${{ inputs.DOCKER_IMAGE_PREFIX }}" | xargs -r docker stop | xargs -r docker rm || exit 1
@@ -50,12 +69,6 @@ jobs:
             port=$(echo ${{ inputs.PORTS }} | cut -d ' ' -f $i)
             portout=$(echo ${{ inputs.PORTSOUT }} | cut -d ' ' -f $i)
             echo "Starting container for $service..."
-          
-            if [ $(docker ps -a -q -f "name=$service") ]; then
-              echo "Container $service already exists, removing..."
-              docker stop $service || exit 1
-              docker rm -f $service || exit 1
-            fi
           
             docker run -d \
               --restart=always \
