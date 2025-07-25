@@ -73,6 +73,7 @@ jobs:
             docker run -d \
               --restart=always \
               --network databases_custom_bridge \
+              --network satelite_wpp-ntw \
               -p ${port}:${portout} \
               --name $service \
               ${{ inputs.DOCKER_IMAGE_PREFIX }}:$service || exit 1
