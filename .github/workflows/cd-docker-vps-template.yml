@@ -73,9 +73,16 @@ jobs:
             docker run -d \
               --restart=always \
               --network databases_custom_bridge \
-              --network satelite_wpp-ntw \
               -p ${port}:${portout} \
               --name $service \
-              ${{ inputs.DOCKER_IMAGE_PREFIX }}:$service || exit 1
+              "${{ inputs.DOCKER_IMAGE_PREFIX }}:$service" || {
+                echo "❌ Falha ao subir container $service"
+                exit 1
+              }
+          
+            docker network connect satelite_wpp-ntw $service || {
+              echo "⚠️ Não foi possível conectar $service à rede satelite_wpp-ntw"
+              exit 1
+            }
           done
 
